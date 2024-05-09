@@ -4,5 +4,14 @@ export const GlobalStyle = StyleSheet.create({
     btn : {
         backgroundColor: 'blue',
         fontWeight: 'bold'
+    },
+    forminput: {
+
+    },
+    formsubmit: {
+
+    },
+    formerror: {
+
     }
 })
