@@ -1,6 +1,6 @@
-import MapView, {LatLng, LongPressEvent, Region} from "react-native-maps";
+import MapView, {LatLng, LongPressEvent, Marker, Region} from "react-native-maps";
 import {StyleSheet} from "react-native";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import * as Location from 'expo-location';
 
 //THIS MAP ENTIRE MAP COMPONENT IS CONSIDERED A PLACEHOLDER PRESENTATION
@@ -13,6 +13,11 @@ interface MapMarker {
 export default function Map() {
     //const [markers, setMarkers] = useState<MapMarker[]>([])
     const [destinationMarker, setDestinationMarker] = useState<MapMarker>()
+
+    let userRegion = {
+        latitude : 0,
+        longtitude : 0
+    }
 
     const mapRef = useRef(null)
 
@@ -33,9 +38,29 @@ export default function Map() {
 
     }
 
+    async function GetCurrentUserLocation() {
+        const { status } = await Location.requestForegroundPermissionsAsync()
+        if (status !== 'granted') {
+            console.error('Permission to access location was denied');
+            return
+        }
+
+        const userLocation = await Location.getCurrentPositionAsync()
+        const {latitude, longitude, altitude} = userLocation.coords
+        userRegion = {
+            latitude: latitude,
+            longtitude: longitude
+        }
+    }
+
+    useEffect(() => {
+        GetCurrentUserLocation()
+    }, []);
 
     return <>
-        <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => TouchMark(event)}  />
+        <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => TouchMark(event)}>
+            <Marker coordinate={{latitude: userRegion.latitude, longitude: userRegion.longtitude}} />
+        </MapView>
     </>
 }
 
