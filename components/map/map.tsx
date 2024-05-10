@@ -1,7 +1,8 @@
 import MapView, {LatLng, LongPressEvent, Marker, Region} from "react-native-maps";
 import {StyleSheet} from "react-native";
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import * as Location from 'expo-location';
+import {MainContext} from "@/services/state/maincontext";
 
 //THIS MAP ENTIRE MAP COMPONENT IS CONSIDERED A PLACEHOLDER PRESENTATION
 
@@ -13,6 +14,7 @@ interface MapMarker {
 export default function Map() {
     //const [markers, setMarkers] = useState<MapMarker[]>([])
     const [destinationMarker, setDestinationMarker] = useState<MapMarker>()
+    const {mapService} = useContext(MainContext)
 
     let userRegion = {
         latitude : 0,
@@ -38,11 +40,17 @@ export default function Map() {
 
     }
 
-
+    async function GetUserLocation() {
+        const userLocationData = await mapService.GetCurrentUserLocation()
+        userRegion = {
+            latitude: userLocationData.latitude,
+            longtitude: userLocationData.longitude
+        }
+    }
 
     useEffect(() => {
-        GetCurrentUserLocation()
-    }, []);
+        GetUserLocation()
+    }, [GetUserLocation]);
 
     return <>
         <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => TouchMark(event)}>
