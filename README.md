@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-<img src="https://i.imgur.com/ySsgLYF.png" alt="Rihla Logo" width="100" height="100">
+    <img src="https://i.imgur.com/ySsgLYF.png" alt="Rihla Logo" width="100" height="100">
 
 
 **Rihla**, is a ride hailing app that provides different ride hailing services for users.
