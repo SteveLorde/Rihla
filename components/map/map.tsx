@@ -38,20 +38,7 @@ export default function Map() {
 
     }
 
-    async function GetCurrentUserLocation() {
-        const { status } = await Location.requestForegroundPermissionsAsync()
-        if (status !== 'granted') {
-            console.error('Permission to access location was denied');
-            return
-        }
 
-        const userLocation = await Location.getCurrentPositionAsync()
-        const {latitude, longitude, altitude} = userLocation.coords
-        userRegion = {
-            latitude: latitude,
-            longtitude: longitude
-        }
-    }
 
     useEffect(() => {
         GetCurrentUserLocation()
