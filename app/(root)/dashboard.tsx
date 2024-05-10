@@ -1,14 +1,14 @@
 import {StyleSheet, View} from "react-native";
 import Navbar from "@/components/navbar/navbar";
 import MapView from "react-native-maps";
-import Map from "@/components/map/map";
+import MapComponent from "@/components/map/mapComponent";
 
 export default function Page() {
 
 
     return <>
         <View>
-            <Map/>
+            <MapComponent/>
         </View>
     </>
 }

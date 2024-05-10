@@ -11,7 +11,7 @@ interface MapMarker {
     title : string
 }
 
-export default function Map() {
+export default function MapComponent() {
     //const [markers, setMarkers] = useState<MapMarker[]>([])
     const [destinationMarker, setDestinationMarker] = useState<MapMarker>()
     const {mapService} = useContext(MainContext)
@@ -23,7 +23,7 @@ export default function Map() {
 
     const mapRef = useRef(null)
 
-    function TouchMark(touchEvent : LongPressEvent) {
+    function CreateDestination(touchEvent : LongPressEvent) {
         const {coordinate} = touchEvent.nativeEvent
         const newMarker : MapMarker = {
             coordinate: coordinate,
@@ -53,7 +53,7 @@ export default function Map() {
     }, [GetUserLocation]);
 
     return <>
-        <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => TouchMark(event)}>
+        <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
             <Marker coordinate={{latitude: userRegion.latitude, longitude: userRegion.longtitude}} />
         </MapView>
     </>
