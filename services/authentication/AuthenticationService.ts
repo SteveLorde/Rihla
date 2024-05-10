@@ -8,12 +8,17 @@ import {User} from "@/data/models/User";
 export class AuthenticationService implements IAuthenticationService{
     constructor() {}
 
+    isLoggedIn : boolean = false
+
     customHeaders = {
         'Authorization': `Bearer ${localStorage.getItem('usertoken')}`
     };
 
     async Login(loginReq : LoginRequest) {
-        return await axios.post<boolean>(`${backendURL}/authentication/login`, loginReq).then(res => res.data)
+        return await axios.post<boolean>(`${backendURL}/authentication/login`, loginReq).then(res => {
+            this.isLoggedIn = true
+            return res.data
+        })
     }
 
     async Register(registerReq : RegisterRequest) {
