@@ -1,4 +1,4 @@
-export interface Location {
+export interface GeoLocation {
     latitude: number,
     longitude: number,
     latitudeDelta: number,

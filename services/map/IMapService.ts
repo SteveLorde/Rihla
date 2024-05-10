@@ -1,6 +1,6 @@
-import {Location} from "@/data/models/Location";
+import {GeoLocation} from "@/data/models/GeoLocation";
 
 
 export interface IMapService {
-    GetCurrentUserLocation() : Promise<Location>
+    GetCurrentUserLocation() : Promise<GeoLocation>
 }

@@ -1,8 +1,9 @@
 import MapView, {LatLng, LongPressEvent, Marker, Region} from "react-native-maps";
 import {StyleSheet} from "react-native";
 import {useContext, useEffect, useRef, useState} from "react";
-import * as Location from 'expo-location';
 import {MainContext} from "@/services/state/maincontext";
+import {GeoLocation} from "@/data/models/GeoLocation"
+import {Driver} from "@/data/models/Driver";
 
 //THIS MAP ENTIRE MAP COMPONENT IS CONSIDERED A PLACEHOLDER PRESENTATION
 
@@ -13,14 +14,11 @@ interface MapMarker {
 
 export default function MapComponent() {
     //const [markers, setMarkers] = useState<MapMarker[]>([])
-    const [destinationMarker, setDestinationMarker] = useState<MapMarker>()
+    const [destinationMarker, setDestinationMarker] = useState<MapMarker>({title: "destination", coordinate: {latitude: 0, longitude: 0}})
+    const [drivers, setDrivers] = useState<Driver[]>([])
+    const [rideDriver, setRideDriver] = useState<Driver>({} as Driver)
+    const [userLocation, setUserLocation] = useState<GeoLocation>({longitude: 0, latitude: 0, latitudeDelta: 0, longitudeDelta: 0})
     const {mapService} = useContext(MainContext)
-
-    let userRegion = {
-        latitude : 0,
-        longtitude : 0
-    }
-
     const mapRef = useRef(null)
 
     function CreateDestination(touchEvent : LongPressEvent) {
@@ -40,21 +38,26 @@ export default function MapComponent() {
 
     }
 
+    async function GetMapDrivers() {
+        const mapDrivers = await mapService.
+    }
+
     async function GetUserLocation() {
         const userLocationData = await mapService.GetCurrentUserLocation()
-        userRegion = {
-            latitude: userLocationData.latitude,
-            longtitude: userLocationData.longitude
-        }
+        setUserLocation(userLocationData)
     }
 
     useEffect(() => {
-        GetUserLocation()
-    }, [GetUserLocation]);
+        const getUserLocationInterval = setInterval(GetUserLocation, 1000)
+        return () => clearInterval(getUserLocationInterval)
+    }, []);
 
     return <>
         <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
-            <Marker coordinate={{latitude: userRegion.latitude, longitude: userRegion.longtitude}} />
+            <Marker coordinate={{latitude: userLocation.latitude, longitude: userLocation.longitude}} />
+            {drivers.map( (driver: Driver) =>
+                <Marker coordinate={{latitude: driver.location.latitude, longitude: driver.location.longitude}}/>
+            )}
         </MapView>
     </>
 }

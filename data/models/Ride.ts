@@ -1,8 +1,8 @@
-import {Location} from "./Location"
+import {GeoLocation} from "./GeoLocation"
 
 export interface Ride {
-    source : Location
-    destination : Location
+    source : GeoLocation
+    destination : GeoLocation
     driver : Driver
     duration : string //THINKING ABOUT DATE OBJECT
 }

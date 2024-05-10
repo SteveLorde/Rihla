@@ -1,5 +1,5 @@
 import {Driver} from "@/data/models/Driver";
-import {Location} from "@/data/models/Location";
+import {GeoLocation} from "@/data/models/GeoLocation";
 import {IRideService} from "@/services/ride/IRideService";
 import axios from "axios"
 import {Ride} from "@/data/models/Ride";
@@ -36,8 +36,8 @@ class RideService implements IRideService {
         return Promise.resolve(undefined);
     }
 
-    GetRealtimeDriverLocation(): Promise<Location> {
-        return Promise.resolve(undefined);
+    GetRealtimeDriverLocation(): Promise<GeoLocation> {
+        this.rideSocket.on("driverlocationupdate")
     }
 
     async RequestRide(rideReq : Ride): Promise<boolean> {

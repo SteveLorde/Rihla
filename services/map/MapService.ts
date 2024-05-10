@@ -1,4 +1,4 @@
-import { Location } from "@/data/models/Location";
+import { GeoLocation } from "@/data/models/GeoLocation";
 import {IMapService} from "@/services/map/IMapService";
 import * as ExpoLocation from "expo-location";
 
@@ -6,7 +6,7 @@ export class MapService implements IMapService {
     constructor() {
     }
 
-    currentUserLocation: Location = {
+    currentUserLocation: GeoLocation = {
         latitude: 0,
         longitude: 0,
         latitudeDelta: 0,
@@ -17,7 +17,7 @@ export class MapService implements IMapService {
         const { status } = await ExpoLocation.requestForegroundPermissionsAsync()
         if (status !== 'granted') {
             console.error('Permission to access location was denied');
-            let nullLocation : Location = {latitude:0, longitude: 0, longitudeDelta: 0, latitudeDelta: 0}
+            let nullLocation : GeoLocation = {latitude:0, longitude: 0, longitudeDelta: 0, latitudeDelta: 0}
             return nullLocation
         }
         const userLocation = await ExpoLocation.getCurrentPositionAsync()
