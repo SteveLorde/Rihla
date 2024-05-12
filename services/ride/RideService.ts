@@ -8,11 +8,11 @@ import { io } from "socket.io-client";
 import {IAuthenticationService} from "@/services/authentication/IAuthenticationService";
 import {AuthenticationService} from "@/services/authentication/AuthenticationService";
 
-class RideService implements IRideService {
+export class RideService implements IRideService {
 
     private _authService : IAuthenticationService
 
-    constructor(authService : AuthenticationService) {
+    constructor(authService : IAuthenticationService) {
         this._authService = authService
     }
 
@@ -21,8 +21,6 @@ class RideService implements IRideService {
     customHeaders = {
         'Authorization': `Bearer ${localStorage.getItem('usertoken')}`
     };
-
-    isRideInProgress: boolean = false;
 
     InitializeRideSocket() {
         this.rideSocket.connect()
@@ -33,20 +31,35 @@ class RideService implements IRideService {
     }
 
     async GetDriverDetails(): Promise<Driver> {
-        return Promise.resolve(undefined);
+        let driver : Driver = {} as Driver
+        return await driver
     }
 
-    GetRealtimeDriverLocation(): Promise<GeoLocation> {
-        this.rideSocket.on("driverlocationupdate")
+    GetRealtimeDriverLocation(): GeoLocation {
+        let driverLocation : GeoLocation = {} as GeoLocation
+        this.rideSocket.on("driverlocationupdate", (res : GeoLocation) => {
+            driverLocation = res
+        })
+        return driverLocation
     }
 
-    async RequestRide(rideReq : Ride): Promise<boolean> {
+    RequestRide(rideReq : Ride): void {
         if (!this._authService.isLoggedIn) {
             //FIRE POPUP ERROR
+
         }
         else {
             this.rideSocket.emit("requestride", rideReq)
         }
-        let check = await axios.post<boolean>(`${backendURL}/ride/requestride`, rideReq, {headers: this.customHeaders}).then(res => res.data)
     }
+
+    CalculateFare(ride : Ride): number {
+        const distanceAltitude = ride.destination.latitude - ride.source.latitude
+        const distanceLongtitude = ride.destination.longitude - ride.source.longitude
+        let fare = 0
+
+        return fare
+    }
+
+
 }

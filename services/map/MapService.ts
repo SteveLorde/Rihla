@@ -1,4 +1,5 @@
-import { GeoLocation } from "@/data/models/GeoLocation";
+import { Driver } from "@/data/models/Driver";
+import {GeoLocation} from "@/data/models/GeoLocation";
 import {IMapService} from "@/services/map/IMapService";
 import * as ExpoLocation from "expo-location";
 
@@ -29,6 +30,10 @@ export class MapService implements IMapService {
             longitudeDelta: 0
         }
         return this.currentUserLocation
+    }
+
+    async GetDriversLocations(): Promise<Driver[]> {
+        throw new Error("Method not implemented.");
     }
 
 

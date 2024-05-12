@@ -1,12 +1,13 @@
 import {Driver} from "@/data/models/Driver";
 import {GeoLocation} from "@/data/models/GeoLocation"
+import {Ride} from "@/data/models/Ride";
 
 export interface IRideService {
-    isRideInProgress: boolean
     InitializeRideSocket(): void
     CloseRideSocket() : void
-    RequestRide() : Promise<boolean>
+    RequestRide(rideReq : Ride) : void
     GetDriverDetails() : Promise<Driver>
-    GetRealtimeDriverLocation() : Promise<GeoLocation>
+    GetRealtimeDriverLocation() : GeoLocation
+    CalculateFare(ride : Ride) : number
 }
 

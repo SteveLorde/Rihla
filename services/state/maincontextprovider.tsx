@@ -6,7 +6,7 @@ import {IAuthenticationService} from "@/services/authentication/IAuthenticationS
 import {IMapService} from "@/services/map/IMapService";
 import {MapService} from "@/services/map/MapService";
 
-export default function MainContextProvider({children} : {children : React.ReactElement[]}) {
+export default function MainContextProvider({children} : {children : React.ReactElement}) {
 
     const [currentMapRef, setMapRef] = useState<MutableRefObject<any>>({} as MutableRefObject<any>)
     const _authService: IAuthenticationService = new AuthenticationService();

@@ -39,7 +39,8 @@ export default function MapComponent() {
     }
 
     async function GetMapDrivers() {
-        const mapDrivers = await mapService.
+        const mapDrivers = await mapService.GetDriversLocations()
+        setDrivers(mapDrivers)
     }
 
     async function GetUserLocation() {

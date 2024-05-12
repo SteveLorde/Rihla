@@ -8,5 +8,4 @@ export interface MainContextType {
     SetMapRef: (ref : MutableRefObject<any>) => void
     mapService : IMapService
     authService : IAuthenticationService
-    rideService : IRideService
 }
