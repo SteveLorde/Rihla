@@ -3,6 +3,7 @@ import {GeoLocation} from "@/data/models/GeoLocation";
 import {IMapService} from "@/services/map/IMapService";
 import * as ExpoLocation from "expo-location";
 import axios from "axios";
+import {RouteResponse} from "@/data/models/RouteResponse";
 
 export class MapService implements IMapService {
     constructor() {
@@ -51,6 +52,11 @@ export class MapService implements IMapService {
         const geoObject = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${locationReq.latitude}&lon=${locationReq.longitude}`).then(res => res.data)
         const locationName = geoObject["name"]
         return locationName
+    }
+
+    async Route(startLocation : GeoLocation, destinationLocation: GeoLocation ): Promise<any> {
+        const routeObject = await axios.get<RouteResponse>(`http://router.project-osrm.org/route/v1/driving/${startLocation.latitude},${startLocation.longitude};${destinationLocation.latitude},${destinationLocation.longitude}?overview=false?geometries=geojson`).then(res => res.data)
+        return routeObject
     }
 
 

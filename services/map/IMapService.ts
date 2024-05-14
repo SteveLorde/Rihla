@@ -7,4 +7,5 @@ export interface IMapService {
     GetDriversLocations() : Promise<Driver[]>
     GetGeoLocationByName(query : string) : Promise<void>
     GetGeoCodeLocationName(locationReq : GeoLocation) : Promise<string>
+    Route(startLocation : GeoLocation, destinationLocation: GeoLocation ): Promise<any>
 }
