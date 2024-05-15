@@ -1,9 +1,18 @@
-import {Button, NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData, View} from "react-native";
+import {
+    Button,
+    NativeSyntheticEvent,
+    SafeAreaView,
+    StyleSheet,
+    TextInput,
+    TextInputChangeEventData, TouchableOpacity,
+    View
+} from "react-native";
 import Navbar from "@/components/navbar/navbar";
 import MapView from "react-native-maps";
 import MapComponent from "@/components/map/mapComponent";
 import {useContext, useState} from "react";
 import {MainContext} from "@/services/state/maincontext";
+import SearchIcon from "../../assets/UI/searchicon.svg"
 
 export default function Page() {
     const {mapService} = useContext(MainContext)
@@ -20,10 +29,12 @@ export default function Page() {
     }
 
     return <>
-        <View>
+        <View style={Style.view}>
             <View style={Style.searchBlock}>
                 <TextInput style={Style.searchBar} onChange={(e) => HandleSearchInputChange(e)} />
-                <Button title={""} onPress={() => SearchLocations()}/>
+                <TouchableOpacity onPress={() => SearchLocations()}>
+                    <SearchIcon height={100} width={100}></SearchIcon>
+                </TouchableOpacity>
             </View>
             <MapComponent/>
         </View>
@@ -31,11 +42,20 @@ export default function Page() {
 }
 
 const Style = StyleSheet.create({
+    view: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center"
+    },
     searchBlock: {
-      margin: 5
+      margin: 5,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
     },
     searchBar: {
-        backgroundColor: "",
+        backgroundColor: "#F53134",
+        width: 300,
         padding: 5
     }
 })

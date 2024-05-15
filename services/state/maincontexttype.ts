@@ -4,8 +4,6 @@ import {IAuthenticationService} from "@/services/authentication/IAuthenticationS
 import {IRideService} from "@/services/ride/IRideService";
 
 export interface MainContextType {
-    mapRef : MutableRefObject<any>
-    SetMapRef: (ref : MutableRefObject<any>) => void
     mapService : IMapService
     authService : IAuthenticationService
 }

@@ -38,5 +38,8 @@ export const GlobalStyle = StyleSheet.create({
     logoImage: {
         height: 80,
         width: 80
+    },
+    normalText: {
+        color: "white"
     }
 })

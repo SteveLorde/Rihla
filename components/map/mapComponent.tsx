@@ -13,13 +13,11 @@ interface MapMarker {
 }
 
 export default function MapComponent() {
-    //const [markers, setMarkers] = useState<MapMarker[]>([])
     const [destinationMarker, setDestinationMarker] = useState<MapMarker>({title: "destination", coordinate: {latitude: 0, longitude: 0}})
     const [drivers, setDrivers] = useState<Driver[]>([])
     const [rideDriver, setRideDriver] = useState<Driver>({} as Driver)
     const [userLocation, setUserLocation] = useState<GeoLocation>({longitude: 0, latitude: 0, latitudeDelta: 0, longitudeDelta: 0})
     const {mapService} = useContext(MainContext)
-    const mapRef = useRef(null)
     const [routeCoords, setRouteCoords] = useState<LatLng[]>([])
 
     async function CreateDestination(touchEvent : LongPressEvent) {
@@ -65,7 +63,7 @@ export default function MapComponent() {
     }, []);
 
     return <>
-        <MapView ref={mapRef} style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
+        <MapView style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
             <Marker coordinate={{latitude: userLocation.latitude, longitude: userLocation.longitude}} />
             {destinationMarker.coordinate.latitude > 0 ? <Marker coordinate={{latitude: destinationMarker.coordinate.latitude , longitude: destinationMarker.coordinate.longitude}}/> : null}
             {drivers.map( (driver: Driver) =>
@@ -79,6 +77,6 @@ export default function MapComponent() {
 
 const mapElementStyle = StyleSheet.create({
     mapview: {
-
+        height: 400
     }
 })

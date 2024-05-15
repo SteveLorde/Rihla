@@ -19,7 +19,7 @@ export class RideService implements IRideService {
     private rideSocket = io(`${backendRealtimeComURL}`)
 
     customHeaders = {
-        'Authorization': `Bearer ${localStorage.getItem('usertoken')}`
+        'Authorization': `Bearer PLACEHOLDER FOR TOKEN`
     };
 
     InitializeRideSocket() {

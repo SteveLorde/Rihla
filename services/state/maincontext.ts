@@ -5,8 +5,6 @@ import {AuthenticationService} from "@/services/authentication/AuthenticationSer
 import {MapService} from "@/services/map/MapService";
 
 export const MainContext = createContext<MainContextType>({
-    mapRef : {} as React.MutableRefObject<any>,
-    SetMapRef : () => {},
     mapService: {} as MapService,
     authService: {} as AuthenticationService
 })

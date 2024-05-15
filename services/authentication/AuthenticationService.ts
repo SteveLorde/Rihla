@@ -11,7 +11,7 @@ export class AuthenticationService implements IAuthenticationService{
     isLoggedIn : boolean = false
 
     customHeaders = {
-        'Authorization': `Bearer ${localStorage.getItem('usertoken')}`
+        'Authorization': `Bearer PLACEHOLDER FOR TOKEN`
     };
 
     async Login(loginReq : LoginRequest) {
