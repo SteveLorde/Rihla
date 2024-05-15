@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 33 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-2888,-872)">
+        <g id="RideNavIcon" transform="matrix(0.0839339,0,0,0.0839339,2871.29,837.257)">
+            <g transform="matrix(1,0,0,1,9.93701,118.75)">
+                <path d="M190.063,700C192.719,594.683 279.048,510 385,510C490.952,510 577.281,594.683 579.937,700L190.063,700Z" style="fill:white;"/>
+            </g>
+            <g transform="matrix(1.16667,0,0,1.16667,-65.8963,12.9167)">
+                <circle cx="395" cy="425" r="75" style="fill:white;"/>
+            </g>
+        </g>
+    </g>
+</svg>

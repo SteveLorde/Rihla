@@ -1,5 +1,5 @@
-import {GlobalStyle} from "../styles/GlobalStyle"
-import {SafeAreaView, TextInput, View, Text, StyleSheet, TouchableOpacity} from "react-native";
+    import {GlobalStyle, logoImage} from "../styles/GlobalStyle"
+import {SafeAreaView, TextInput, View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
 import {Controller, useForm} from "react-hook-form";
 import {useContext, useState} from "react";
 import {LoginRequest} from "@/data/models/LoginRequest";
@@ -7,13 +7,16 @@ import {RegisterRequest} from "@/data/models/RegisterRequest";
 import {MainContext} from "@/services/state/maincontext";
 import { router } from 'expo-router';
 
-
-
 export default function Page() {
     const { control : loginform, handleSubmit : loginformsubmit, formState: { errors : loginformerrors } } = useForm<LoginRequest>();
     const { control : registerform, handleSubmit : registerformsubmit, formState: { errors : registerformerrors } } = useForm<RegisterRequest>();
     const [isToggleForm, setToggleForm] = useState(false)
     const {authService} = useContext(MainContext)
+
+
+    function ToggleForm() {
+        setToggleForm(!isToggleForm)
+    }
 
 
     async function Login(loginReq : LoginRequest) {
@@ -24,6 +27,10 @@ export default function Page() {
         else {
             //to implement modal popup
         }
+    }
+
+    function LoginTest() {
+        router.navigate("/dashboard")
     }
 
     async function Register(registerReq : RegisterRequest) {
@@ -39,8 +46,12 @@ export default function Page() {
 
     return (
         <>
-            <View>
-                {isToggleForm ? <View>
+            <View style={GlobalStyle.page}>
+
+                {!isToggleForm ? <View style={styles.form}>
+                    <TouchableOpacity style={GlobalStyle.btn} onPress={() => ToggleForm()}>
+                        <Text style={{color: "white"}}>Not Registered?</Text>
+                    </TouchableOpacity>
                     <Controller control={loginform} rules={{required : true}} render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={GlobalStyle.forminput}
@@ -61,8 +72,14 @@ export default function Page() {
                         />
                     )} name={"password"}/>
                     {loginformerrors.password && <Text style={GlobalStyle.formerror}>Password is required.</Text>}
-                    <TouchableOpacity style={GlobalStyle.formsubmit} onPress={loginformsubmit(Login)}></TouchableOpacity>
-                </View> : <View>
+                    {/*USING LOGIN TEST FUNCTION FOR NOW*/}
+                    <TouchableOpacity style={GlobalStyle.formsubmit} onPress={() => LoginTest()}>
+                        <Text style={{color: "white"}}>Login</Text>
+                    </TouchableOpacity>
+                </View> : <View style={styles.form}>
+                    <TouchableOpacity style={GlobalStyle.btn} onPress={() => ToggleForm()}>
+                        <Text style={{color: "white"}}>Login?</Text>
+                    </TouchableOpacity>
                     <Controller control={registerform} rules={{required : true}} render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             style={GlobalStyle.forminput}
@@ -83,18 +100,27 @@ export default function Page() {
                         />
                     )} name={"password"}/>
                     {registerformerrors.password && <Text style={GlobalStyle.formerror}>Password is required.</Text>}
-                    <TouchableOpacity style={GlobalStyle.formsubmit} onPress={loginformsubmit(Login)}></TouchableOpacity>
+                    <TouchableOpacity style={GlobalStyle.formsubmit} onPress={registerformsubmit(Register)}>
+                        <Text style={{color: "white"}}>Register</Text>
+                    </TouchableOpacity>
                 </View>}
+                <Image style={GlobalStyle.logoImage} source={logoImage} />
             </View>
         </>
     );
 }
 
 const styles = StyleSheet.create({
+    form: {
+      flex: 1,
+      flexDirection: "column",
+      alignContent: "center",
+        justifyContent: "center",
+    },
     title: {
 
     },
-    input: {
+    forminput: {
 
     }
 })
