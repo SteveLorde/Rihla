@@ -11,6 +11,10 @@ import {AuthenticationService} from "@/services/authentication/AuthenticationSer
 export class RideService implements IRideService {
 
     private _authService : IAuthenticationService
+    public fare : number = 0
+    public vanfare : number = 0
+    public destinationName : string = ''
+    public rideInProgress : boolean = false
 
     constructor(authService : IAuthenticationService) {
         this._authService = authService
@@ -53,12 +57,23 @@ export class RideService implements IRideService {
         }
     }
 
-    CalculateFare(ride : Ride): number {
-        const distanceAltitude = ride.destination.latitude - ride.source.latitude
-        const distanceLongtitude = ride.destination.longitude - ride.source.longitude
-        let fare = 0
+    CancelRide() {
+        this.rideInProgress = false
+        this.fare = 0
+        this.vanfare = 0
+        this.destinationName = ''
+    }
 
-        return fare
+
+    CalculateFare(distance : number): void {
+        this.fare = 0
+        //DISTANCE IS IN METERS
+        while (distance > 0) {
+            distance -= 100
+            this.fare += 4.7
+            //VAN FARE WILL HAVE DIFFERENT PRICING STRATEGY
+            //this.vanfare += 3.0
+        }
     }
 
 

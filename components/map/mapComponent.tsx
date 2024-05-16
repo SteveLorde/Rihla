@@ -1,9 +1,10 @@
 import MapView, {LatLng, LongPressEvent, Marker, Polyline, Region} from "react-native-maps";
-import {StyleSheet} from "react-native";
+import {StyleSheet, Dimensions} from "react-native";
 import {useContext, useEffect, useRef, useState} from "react";
 import {MainContext} from "@/services/state/maincontext";
 import {GeoLocation} from "@/data/models/GeoLocation"
 import {Driver} from "@/data/models/Driver";
+import {RideContext} from "@/services/ridestate/ridecontext";
 
 //THIS MAP ENTIRE MAP COMPONENT IS CONSIDERED A PLACEHOLDER PRESENTATION
 
@@ -12,12 +13,16 @@ interface MapMarker {
     title : string
 }
 
+const screenWidth = Dimensions.get("window").width
+const screenHeight = Dimensions.get("window").height
+
 export default function MapComponent() {
     const [destinationMarker, setDestinationMarker] = useState<MapMarker>({title: "destination", coordinate: {latitude: 0, longitude: 0}})
     const [drivers, setDrivers] = useState<Driver[]>([])
     const [rideDriver, setRideDriver] = useState<Driver>({} as Driver)
     const [userLocation, setUserLocation] = useState<GeoLocation>({longitude: 0, latitude: 0, latitudeDelta: 0, longitudeDelta: 0})
     const {mapService} = useContext(MainContext)
+    const {RideRequested} = useContext(RideContext)
     const [routeCoords, setRouteCoords] = useState<LatLng[]>([])
 
     async function CreateDestination(touchEvent : LongPressEvent) {
@@ -28,6 +33,7 @@ export default function MapComponent() {
         }
         setDestinationMarker(newMarker)
         await GetRoute()
+        RideRequested()
     }
 
     function MapDrag(event : Region) {
@@ -63,7 +69,7 @@ export default function MapComponent() {
     }, []);
 
     return <>
-        <MapView style={mapElementStyle.mapview} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
+        <MapView style={{height: screenHeight, width: screenWidth}} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
             <Marker coordinate={{latitude: userLocation.latitude, longitude: userLocation.longitude}} />
             {destinationMarker.coordinate.latitude > 0 ? <Marker coordinate={{latitude: destinationMarker.coordinate.latitude , longitude: destinationMarker.coordinate.longitude}}/> : null}
             {drivers.map( (driver: Driver) =>
@@ -74,9 +80,3 @@ export default function MapComponent() {
     </>
 }
 
-
-const mapElementStyle = StyleSheet.create({
-    mapview: {
-        height: 400
-    }
-})

@@ -22,7 +22,7 @@ export default function Page() {
     async function Login(loginReq : LoginRequest) {
         const check = await authService.Login(loginReq)
         if (check) {
-            router.navigate("/dashboard")
+            router.navigate("/ride-page")
         }
         else {
             //to implement modal popup
@@ -30,13 +30,13 @@ export default function Page() {
     }
 
     function LoginTest() {
-        router.navigate("/dashboard")
+        router.navigate("/ride-page")
     }
 
     async function Register(registerReq : RegisterRequest) {
         const check = await authService.Register(registerReq)
         if (check) {
-            router.navigate("/dashboard")
+            router.navigate("/ride-page")
         }
         else {
             //to implement modal popup
@@ -104,7 +104,7 @@ export default function Page() {
                         <Text style={{color: "white"}}>Register</Text>
                     </TouchableOpacity>
                 </View>}
-                <Image style={GlobalStyle.logoImage} source={logoImage} />
+                <Image style={styles.logoImage} source={logoImage} />
             </View>
         </>
     );
@@ -116,13 +116,18 @@ const styles = StyleSheet.create({
       flexDirection: "column",
       alignContent: "center",
         justifyContent: "center",
+        gap: 10
     },
     title: {
 
     },
     forminput: {
 
-    }
+    },
+    logoImage: {
+        height: 80,
+        width: 80,
+    },
 })
 
 

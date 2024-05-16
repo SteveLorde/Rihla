@@ -26,7 +26,7 @@ export const GlobalStyle = StyleSheet.create({
         borderBottomWidth: 2
     },
     formsubmit: {
-        marginTop: 100,
+        marginTop: 50,
         padding: 20,
         borderRadius: 10,
         backgroundColor: "#F53134",
@@ -34,10 +34,6 @@ export const GlobalStyle = StyleSheet.create({
     },
     formerror: {
 
-    },
-    logoImage: {
-        height: 80,
-        width: 80
     },
     normalText: {
         color: "white"
