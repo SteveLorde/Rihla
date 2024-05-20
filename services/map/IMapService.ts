@@ -3,6 +3,7 @@ import {Driver} from "@/data/models/Driver";
 
 
 export interface IMapService {
+    selectedDestinationName : string
     GetCurrentUserLocation() : Promise<GeoLocation>
     GetDriversLocations() : Promise<Driver[]>
     GetGeoLocationByName(query : string) : Promise<void>

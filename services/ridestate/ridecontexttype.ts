@@ -2,8 +2,8 @@ import {IRideService} from "@/services/ride/IRideService";
 
 
 export interface RideContextType {
-    rideRequested : boolean
-    RideRequested: () => void,
-    RideRequestCancelled: () => void,
+    showRidePopUp : boolean
+    OpenRidePopUp: () => void,
+    CloseRidePopUp: () => void,
     rideService : IRideService
 }

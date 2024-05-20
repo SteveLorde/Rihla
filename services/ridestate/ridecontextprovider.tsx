@@ -8,22 +8,23 @@ import {IRideService} from "@/services/ride/IRideService";
 import {useState} from "react";
 
 export default function RideContextProvider({children,authService} : {children : React.ReactElement[], authService: IAuthenticationService}) {
-    const [rideRequested, setRideRequested] = useState<boolean>(false)
+    const [showRidePopUp, setShowRidePopUp] = useState<boolean>(false)
     const _rideService : IRideService = new RideService(authService)
 
-    function RideRequest() {
-        setRideRequested(true)
+    function OpenRidePopUp() {
+        console.log("show ride pop up " + showRidePopUp)
+        setShowRidePopUp(true)
     }
 
-    function RideRequestCancelled() {
-        setRideRequested(false)
+    function CloseRidePopUp() {
+        setShowRidePopUp(false)
     }
 
     const contextValues : RideContextType = {
         rideService: _rideService,
-        rideRequested: rideRequested,
-        RideRequested: RideRequest,
-        RideRequestCancelled: RideRequestCancelled
+        showRidePopUp: showRidePopUp,
+        OpenRidePopUp: OpenRidePopUp,
+        CloseRidePopUp: CloseRidePopUp
     }
 
 

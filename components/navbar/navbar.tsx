@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {GlobalStyle, ridenavicon, settingsnavicon} from "@/styles/GlobalStyle";
 import CarIcon from "@/assets/UI/CarIcon.svg"
 import SettingsNavIcon from "@/assets/UI/SettingsNavIcon.svg"
@@ -29,18 +29,18 @@ const style = StyleSheet.create({
         backgroundColor: "#F53134",
         flexDirection: "column",
         alignItems: "center",
-        padding: 20
+        padding: 15
     },
     navelementscontainer: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 10
+        gap: 5
     },
     navButton: {
         flex: 1,
         flexDirection: "column",
         alignItems: "center",
-        gap: 14
+        gap: 5
     },
     icon: {
         height: 100,

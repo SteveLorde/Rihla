@@ -4,7 +4,7 @@ import MainContextProvider from "@/services/state/maincontextprovider";
 import RideContextProvider from "@/services/ridestate/ridecontextprovider";
 import {useContext} from "react";
 import {MainContext} from "@/services/state/maincontext";
-import {SafeAreaView} from "react-native";
+import {KeyboardAvoidingView, Platform, SafeAreaView} from "react-native";
 
 
 export default function MainLayout() {
@@ -13,10 +13,10 @@ export default function MainLayout() {
     return <>
             <MainContextProvider>
                 <RideContextProvider authService={authService}>
-                    <SafeAreaView style={{flex:1, flexDirection: "column", alignItems: "center"}}>
+                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{flex:1,flexDirection: "column", alignItems: "center"}}>
                         <Slot/>
                         <Navbar/>
-                    </SafeAreaView>
+                    </KeyboardAvoidingView>
                 </RideContextProvider>
             </MainContextProvider>
 

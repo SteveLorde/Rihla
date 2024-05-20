@@ -13,7 +13,6 @@ export class RideService implements IRideService {
     private _authService : IAuthenticationService
     public fare : number = 0
     public vanfare : number = 0
-    public destinationName : string = ''
     public rideInProgress : boolean = false
 
     constructor(authService : IAuthenticationService) {
@@ -61,7 +60,6 @@ export class RideService implements IRideService {
         this.rideInProgress = false
         this.fare = 0
         this.vanfare = 0
-        this.destinationName = ''
     }
 
 

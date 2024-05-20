@@ -5,7 +5,6 @@ import {Ride} from "@/data/models/Ride";
 export interface IRideService {
     fare : number
     vanfare : number
-    destinationName: string
     rideInProgress : boolean
     InitializeRideSocket(): void
     CloseRideSocket() : void

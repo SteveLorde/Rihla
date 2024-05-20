@@ -5,6 +5,7 @@ import {RegisterRequest} from "@/data/models/RegisterRequest";
 export interface IAuthenticationService {
     isLoggedIn : boolean
     Login(loginRequest : LoginRequest): Promise<boolean>
+    LogOut(): boolean
     Register(registerRequest: RegisterRequest): Promise<boolean>
     GetActiveUser(): Promise<User>
 }

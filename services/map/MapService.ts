@@ -9,6 +9,8 @@ export class MapService implements IMapService {
     constructor() {
     }
 
+    selectedDestinationName = "destination name"
+
     currentUserLocation: GeoLocation = {
         latitude: 0,
         longitude: 0,
@@ -23,13 +25,16 @@ export class MapService implements IMapService {
             let nullLocation : GeoLocation = {latitude:0, longitude: 0, longitudeDelta: 0, latitudeDelta: 0}
             return nullLocation
         }
-        const userLocation = await ExpoLocation.getCurrentPositionAsync()
-        const {latitude, longitude, altitude} = userLocation.coords
-        this.currentUserLocation = {
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: 0,
-            longitudeDelta: 0
+        else {
+            const expoLocationOptions : ExpoLocation.LocationOptions = {accuracy: 1}
+            const userLocation = await ExpoLocation.getCurrentPositionAsync(expoLocationOptions)
+            const {latitude, longitude, altitude} = userLocation.coords
+            this.currentUserLocation = {
+                latitude: latitude,
+                longitude: longitude,
+                latitudeDelta: 0,
+                longitudeDelta: 0
+            }
         }
         return this.currentUserLocation
     }

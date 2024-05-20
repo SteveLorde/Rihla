@@ -21,6 +21,11 @@ export class AuthenticationService implements IAuthenticationService{
         })
     }
 
+    LogOut(): boolean {
+        this.isLoggedIn = false
+        return !this.isLoggedIn;
+    }
+
     async Register(registerReq : RegisterRequest) {
         return await axios.post<boolean>(`${backendURL}/authentication/register`, registerReq).then(res => res.data)
     }

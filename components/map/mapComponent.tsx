@@ -22,18 +22,20 @@ export default function MapComponent() {
     const [rideDriver, setRideDriver] = useState<Driver>({} as Driver)
     const [userLocation, setUserLocation] = useState<GeoLocation>({longitude: 0, latitude: 0, latitudeDelta: 0, longitudeDelta: 0})
     const {mapService} = useContext(MainContext)
-    const {RideRequested} = useContext(RideContext)
+    const {OpenRidePopUp} = useContext(RideContext)
     const [routeCoords, setRouteCoords] = useState<LatLng[]>([])
 
     async function CreateDestination(touchEvent : LongPressEvent) {
+        OpenRidePopUp()
         const {coordinate} = touchEvent.nativeEvent
         const newMarker : MapMarker = {
             coordinate: coordinate,
             title: 'Destination'
         }
+
+        console.log("destination marker latitude is " + destinationMarker.coordinate.latitude)
         setDestinationMarker(newMarker)
         await GetRoute()
-        RideRequested()
     }
 
     function MapDrag(event : Region) {
@@ -45,11 +47,15 @@ export default function MapComponent() {
     }
 
     async function GetRoute() {
-        if (destinationMarker.coordinate.latitude !== 0) {
-            const destinationLocation : GeoLocation = {latitude: destinationMarker.coordinate.latitude, longitude: destinationMarker.coordinate.longitude} as GeoLocation
+        console.log("GETTING ROUTE FOR USER LOCATION " + userLocation.latitude + "DESTINATION LOCATION " + destinationMarker.coordinate.latitude)
+        if (destinationMarker.coordinate.latitude > 0) {
+            const destinationLocation : GeoLocation = {
+                latitudeDelta: 0,
+                longitudeDelta: 0,
+                latitude: destinationMarker.coordinate.latitude, longitude: destinationMarker.coordinate.longitude
+            }
             const routeObject = await mapService.Route(userLocation,destinationLocation)
             console.log(routeObject)
-
         }
     }
 
@@ -60,6 +66,7 @@ export default function MapComponent() {
 
     async function GetUserLocation() {
         const userLocationData = await mapService.GetCurrentUserLocation()
+        console.log("current user location is " + userLocationData.latitude + " latitude " + userLocationData.longitude + " longtitude ")
         setUserLocation(userLocationData)
     }
 
@@ -68,9 +75,9 @@ export default function MapComponent() {
         return () => clearInterval(getUserLocationInterval)
     }, []);
 
+
     return <>
         <MapView style={{height: screenHeight, width: screenWidth}} showsUserLocation={true} followsUserLocation={true} onRegionChange={(event) => MapDrag(event)} onRegionChangeComplete={(event) => MapDragDone(event)} onLongPress={(event) => CreateDestination(event)}>
-            <Marker coordinate={{latitude: userLocation.latitude, longitude: userLocation.longitude}} />
             {destinationMarker.coordinate.latitude > 0 ? <Marker coordinate={{latitude: destinationMarker.coordinate.latitude , longitude: destinationMarker.coordinate.longitude}}/> : null}
             {drivers.map( (driver: Driver) =>
                 <Marker coordinate={{latitude: driver.location.latitude, longitude: driver.location.longitude}}/>

@@ -20,7 +20,7 @@ export default function Page() {
     const {mapService} = useContext(MainContext)
     const [queryName, setQueryName] = useState<string>("")
     const [queriedLocations, setQueriedLocations] = useState<any[]>([])
-    const {rideRequested} = useContext(RideContext)
+    const {showRidePopUp} = useContext(RideContext)
 
     function HandleSearchInputChange(e : NativeSyntheticEvent<TextInputChangeEventData>) {
         setQueryName(e.nativeEvent.text)
@@ -31,14 +31,13 @@ export default function Page() {
     }
 
     return <>
+
         <View style={Style.view}>
-            {rideRequested ? <View style={Style.riderequestpopup}>
-                <RideRequestPopUp/>
-            </View> : null}
             <View style={[Style.searchBlock, {zIndex: 99}]}>
-                <TextInput style={Style.searchBar} placeholder={"Search Location... "} onChange={(e) => HandleSearchInputChange(e)} />
+                <TextInput style={[Style.searchBar, {zIndex: 99}]} placeholder={"Search Location... "} placeholderTextColor={"#fff"} onChange={(e) => HandleSearchInputChange(e)} />
             </View>
             <MapComponent/>
+            {showRidePopUp && <RideRequestPopUp/>}
         </View>
     </>
 }
@@ -50,22 +49,26 @@ const Style = StyleSheet.create({
         alignItems: "center",
     },
     searchBlock: {
+        position: "absolute",
+        top: 10,
         backgroundColor: "#F53134",
         flexDirection: "row",
         alignItems: "center",
         padding: 10,
+        paddingLeft: 30,
+        paddingRight: 30,
         margin: 10,
-        borderRadius: 25
+        borderRadius: 100
     },
     searchBar: {
         color: "#ffffff",
-        padding: 10,
-        minWidth: 250,
+        padding: 5,
+        minWidth: 300,
         borderBottomColor: '#ffffff',
         borderBottomWidth: 2
     },
     riderequestpopup: {
-        position: "absolute",
-        top: 150
+        flex: 1,
+        flexDirection: "column"
     }
 })
