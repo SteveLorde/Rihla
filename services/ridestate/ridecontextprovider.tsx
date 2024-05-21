@@ -12,7 +12,6 @@ export default function RideContextProvider({children,authService} : {children :
     const _rideService : IRideService = new RideService(authService)
 
     function OpenRidePopUp() {
-        console.log("show ride pop up " + showRidePopUp)
         setShowRidePopUp(true)
     }
 

@@ -11,7 +11,7 @@ import {AuthenticationService} from "@/services/authentication/AuthenticationSer
 export class RideService implements IRideService {
 
     private _authService : IAuthenticationService
-    public fare : number = 0
+    public rideFare : number = 0
     public vanfare : number = 0
     public rideInProgress : boolean = false
 
@@ -58,20 +58,22 @@ export class RideService implements IRideService {
 
     CancelRide() {
         this.rideInProgress = false
-        this.fare = 0
+        this.rideFare = 0
         this.vanfare = 0
     }
 
 
     CalculateFare(distance : number): void {
-        this.fare = 0
+        this.rideFare = 0
+        let calculatedFare = 0
         //DISTANCE IS IN METERS
         while (distance > 0) {
             distance -= 100
-            this.fare += 4.7
+            calculatedFare += 4.7
             //VAN FARE WILL HAVE DIFFERENT PRICING STRATEGY
             //this.vanfare += 3.0
         }
+        this.rideFare = Math.round(calculatedFare * 10) / 10
     }
 
 

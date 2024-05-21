@@ -3,7 +3,7 @@ import {GeoLocation} from "@/data/models/GeoLocation"
 import {Ride} from "@/data/models/Ride";
 
 export interface IRideService {
-    fare : number
+    rideFare : number
     vanfare : number
     rideInProgress : boolean
     InitializeRideSocket(): void

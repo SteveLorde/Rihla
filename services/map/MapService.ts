@@ -1,15 +1,15 @@
-import { Driver } from "@/data/models/Driver";
+import {Driver} from "@/data/models/Driver";
 import {GeoLocation} from "@/data/models/GeoLocation";
 import {IMapService} from "@/services/map/IMapService";
 import * as ExpoLocation from "expo-location";
 import axios from "axios";
-import {RouteResponse} from "@/data/models/RouteResponse";
 
 export class MapService implements IMapService {
     constructor() {
     }
 
     selectedDestinationName = "destination name"
+    selectedDestinationDistance = 0
 
     currentUserLocation: GeoLocation = {
         latitude: 0,
@@ -53,15 +53,17 @@ export class MapService implements IMapService {
 
     }
 
-    async GetGeoCodeLocationName(locationReq : GeoLocation) : Promise<string> {
+    async GetGeoCodeLocationName(locationReq : GeoLocation) : Promise<any> {
         const geoObject = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${locationReq.latitude}&lon=${locationReq.longitude}`).then(res => res.data)
-        const locationName = geoObject["name"]
-        return locationName
+        // @ts-ignore
+        this.selectedDestinationName = geoObject.address.road
     }
 
     async Route(startLocation : GeoLocation, destinationLocation: GeoLocation ): Promise<any> {
-        const routeObject = await axios.get<RouteResponse>(`http://router.project-osrm.org/route/v1/driving/${startLocation.latitude},${startLocation.longitude};${destinationLocation.latitude},${destinationLocation.longitude}?overview=false?geometries=geojson`).then(res => res.data)
-        return routeObject
+        const routeResponse = await axios.get(`https://router.project-osrm.org/route/v1/driving/${startLocation.longitude},${startLocation.latitude};${destinationLocation.longitude},${destinationLocation.latitude}?overview=full&geometries=geojson`).then(res => res.data)
+        this.selectedDestinationDistance = routeResponse["routes"][0]["distance"]
+        //STRUCTURE iS [LONGTITUDE,LATITUDE]
+        return routeResponse["routes"][0]["geometry"]["coordinates"]
     }
 
 

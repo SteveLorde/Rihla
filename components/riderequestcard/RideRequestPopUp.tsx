@@ -1,9 +1,13 @@
 import {useContext, useEffect, useState} from "react";
-import {StyleSheet, Text, TouchableOpacity, View, Dimensions} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View, Dimensions, Easing} from "react-native";
 import {RideContext} from "@/services/ridestate/ridecontext";
 import CarIconAlt from "@/assets/UI/CarIconAlt.svg"
 import {MainContext} from "@/services/state/maincontext";
 import {GlobalStyle} from "@/styles/GlobalStyle";
+import { Animated } from 'react-native';
+
+const screenHeight = Dimensions.get("screen").height
+const screenWidth = Dimensions.get("screen").width
 
 
 export default function RideRequestPopUp() {
@@ -12,7 +16,14 @@ export default function RideRequestPopUp() {
     const {mapService} = useContext(MainContext)
     const {rideService, CloseRidePopUp} = useContext(RideContext)
 
-    const screenHeight = Dimensions.get("screen").height / 2
+    const transitionDownToUp = new Animated.Value(screenHeight);
+
+    Animated.timing(transitionDownToUp, {
+        toValue: screenHeight / 2,
+        duration: 500,
+        easing: Easing.ease,
+        useNativeDriver: false,
+    }).start()
 
     function CancelRequest() {
         rideService.CancelRide()
@@ -24,12 +35,13 @@ export default function RideRequestPopUp() {
     }
 
     useEffect(() => {
-        setFare(rideService.fare)
+        rideService.CalculateFare(mapService.selectedDestinationDistance)
+        setFare(rideService.rideFare)
         setDestinationName(mapService.selectedDestinationName)
     }, []);
 
     return <>
-        <View style={[style.card , {zIndex: 99, top: screenHeight}]}>
+        <Animated.View style={[style.card , {zIndex: 99, top: transitionDownToUp}]}>
             <TouchableOpacity onPress={() => CancelRequest()}>
                 <Text style={{color: 'white', padding: 10, paddingLeft: 25, paddingRight: 25, backgroundColor: 'red', borderRadius: 100}}>X</Text>
             </TouchableOpacity>
@@ -46,12 +58,14 @@ export default function RideRequestPopUp() {
             <TouchableOpacity style={[GlobalStyle.btn, {marginTop: 55}]} onPress={() => CallRide()}>
                 <Text style={{color: 'white'}}>Call Ride</Text>
             </TouchableOpacity>
-        </View>
+        </Animated.View>
     </>
 }
 
-const style = StyleSheet.create({
+const style= StyleSheet.create({
     card: {
+        width: '100%',
+        maxWidth: screenWidth * 0.9,
         flex: 1,
         position: "absolute",
         flexDirection: "column",
@@ -76,6 +90,6 @@ const style = StyleSheet.create({
     rideDetailRow: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 100
+        gap: 75
     }
 })

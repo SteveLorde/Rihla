@@ -4,7 +4,7 @@ import {
     SafeAreaView,
     StyleSheet,
     TextInput,
-    TextInputChangeEventData, TouchableOpacity,
+    TextInputChangeEventData, TouchableOpacity, TouchableWithoutFeedback,
     View
 } from "react-native";
 import Navbar from "@/components/navbar/navbar";
@@ -20,7 +20,7 @@ export default function Page() {
     const {mapService} = useContext(MainContext)
     const [queryName, setQueryName] = useState<string>("")
     const [queriedLocations, setQueriedLocations] = useState<any[]>([])
-    const {showRidePopUp} = useContext(RideContext)
+    const {showRidePopUp, CloseRidePopUp} = useContext(RideContext)
 
     function HandleSearchInputChange(e : NativeSyntheticEvent<TextInputChangeEventData>) {
         setQueryName(e.nativeEvent.text)
@@ -30,13 +30,20 @@ export default function Page() {
         const queriedLocations = await mapService.GetGeoLocationByName(queryName)
     }
 
-    return <>
+    function TouchOutsideRidePopUp() {
+        setTimeout(() => CloseRidePopUp(),500)
+    }
 
+    return <>
         <View style={Style.view}>
-            <View style={[Style.searchBlock, {zIndex: 99}]}>
-                <TextInput style={[Style.searchBar, {zIndex: 99}]} placeholder={"Search Location... "} placeholderTextColor={"#fff"} onChange={(e) => HandleSearchInputChange(e)} />
-            </View>
-            <MapComponent/>
+            <TouchableWithoutFeedback onPress={() => TouchOutsideRidePopUp()}>
+                <View>
+                    <View style={[Style.searchBlock, {zIndex: 99}]}>
+                        <TextInput style={[Style.searchBar, {zIndex: 99}]} placeholder={"Search Location... "} placeholderTextColor={"#fff"} onChange={(e) => HandleSearchInputChange(e)} />
+                    </View>
+                    <MapComponent/>
+                </View>
+            </TouchableWithoutFeedback>
             {showRidePopUp && <RideRequestPopUp/>}
         </View>
     </>
