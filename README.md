@@ -5,5 +5,6 @@
 
 implemented in **React Native** and using **React-Native-Maps** open source library for map navigation
 
+using open source OpenMaps-powered GeoEngines **Nomintam API for Reverse Geocoding** and **Project OSRM API for Routing**
 </div>
 
