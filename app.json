@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "rihla",
+    "name": "Rihla",
     "slug": "rihla",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/LogoIcon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.coast.rihla"
     },
     "web": {
       "bundler": "metro",

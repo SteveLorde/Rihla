@@ -31,7 +31,7 @@ export default function Page() {
     }
 
     function TouchOutsideRidePopUp() {
-        setTimeout(() => CloseRidePopUp(),500)
+        CloseRidePopUp()
     }
 
     return <>
